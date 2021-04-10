@@ -22,5 +22,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
 
+    Route::post('/transaction', 'TransactionController@createTransaction');
+
     Route::post('/auth/logout', 'AuthController@logout');
 });

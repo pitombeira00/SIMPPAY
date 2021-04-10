@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\User;
+use App\Wallet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -17,24 +18,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register(UserRequest $request)
     {
-
-        $inputs = Validator::make($request->all(),[
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
-            'document' => 'required|string|unique:users,document'
-        ]);
-
-
-        if($inputs->Fails()){
-            return response()->json([
-                'status' => 'Error',
-                'data' => $inputs->messages()
-            ], 401);
-        }
-
         $user = User::create([
             'name' => $request->name,
             'password' => bcrypt($request->password),
@@ -42,9 +27,15 @@ class AuthController extends Controller
             'document' => $request->document
         ]);
 
+        Wallet::create([
+            'value' => 0,
+            'user_id' => $user->id
+        ]);
+
         return response()->json([
             'status' => 'Success',
-            'data' => ['token' => $user->createToken('API Token')->plainTextToken]
+            'data' => ['token' => $user->createToken('API Token')->plainTextToken],
+            'message' => 'User Register with success'
         ], 200);
     }
 
@@ -52,7 +43,7 @@ class AuthController extends Controller
      * Login User via Token API, Revoke olds Token and Create a New
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse 'Welcome in SimpPay'
      */
     public function login(Request $request)
     {
@@ -64,14 +55,16 @@ class AuthController extends Controller
         if($inputs->Fails()){
             return response()->json([
                 'status' => 'Error',
-                'data' => $inputs->messages()
+                'data' => NULL,
+                'message' => $inputs->messages()
             ], 401);
         }
 
         if (!Auth::attempt($request->all())) {
             return response()->json([
                 'status' => 'Error',
-                'data' => 'Credentials not match'
+                'data' => NULL,
+                'message' => 'Credentials not match'
             ], 401);
 
         }
@@ -80,7 +73,8 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'Success',
-            'data' => ['token' => auth()->user()->createToken('API Token')->plainTextToken]
+            'data' => ['token' => auth()->user()->createToken('API Token')->plainTextToken],
+            'message' => 'Welcome in SimpPay'
         ], 200);
 
     }
@@ -88,14 +82,16 @@ class AuthController extends Controller
     /**
      * Revoke All Tokens
      *
-     * @return string[] Token Revoked
+     * @return \Illuminate\Http\JsonResponse Token Revoked
      */
     public function logout()
     {
         auth()->user()->tokens()->delete();
 
-        return [
-            'message' => 'Tokens Revoked'
-        ];
+        return response()->json([
+            'status' => 'Success',
+            'data' => NULL,
+            'message' =>'Tokens Revoked'
+        ], 200);
     }
 }
