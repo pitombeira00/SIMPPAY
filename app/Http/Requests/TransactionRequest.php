@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PayeeEqual;
 use App\Rules\PayeeUser;
 use App\Rules\PayerCash;
 use App\Rules\TokenUser;
@@ -29,7 +30,7 @@ class TransactionRequest extends FormRequest
     {
         return [
             'payer' => ['required', 'string', new TokenUser(), new TypeUser()],
-            'payee' => ['required','string',new PayeeUser()],
+            'payee' => ['required','string',new PayeeUser(), new PayeeEqual()],
             'value' => ['required', 'numeric', new PayerCash()]
         ];
     }

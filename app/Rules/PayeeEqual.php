@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class TypeUser implements Rule
+class PayeeEqual implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,18 +25,7 @@ class TypeUser implements Rule
      */
     public function passes($attribute, $value)
     {
-        // Remover caracteres especias
-        $cpf = preg_replace('/[^0-9]/', '', auth()->user()->document);
-
-        // Verifica se o numero de digitos informados
-        if (strlen($cpf) != 11)
-            return false;
-
-        // Verifica se todos os digitos são iguais
-        if (preg_match('/(\d)\1{10}/', $cpf))
-            return false;
-
-        return true;
+        return auth()->user()->id <> $value;
     }
 
     /**
@@ -46,6 +35,6 @@ class TypeUser implements Rule
      */
     public function message()
     {
-        return 'payer cannot transfer';
+        return 'cannot transfer to yourself';
     }
 }

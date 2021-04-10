@@ -39,6 +39,10 @@ class User extends Authenticatable
     ];
 
 
+    /**
+     * Relationship wallet
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function wallet(){
 
         return $this->hasOne(Wallet::class);

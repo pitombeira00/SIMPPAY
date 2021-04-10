@@ -17,6 +17,7 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->float('value');
             $table->string('status');
+            $table->boolean('send_message')->default(false);
             $table->bigInteger('user_payer');
             $table->bigInteger('user_payee');
             $table->timestamps();
