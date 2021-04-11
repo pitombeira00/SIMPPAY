@@ -38,7 +38,8 @@ git clone https://github.com/pitombeira00/SIMPPAY.git
 
 ## Composer
 ```
-composer install
+docker-compose exec app composer update
+docker-compose exec app composer install
 ```
 
 ## Criando .ENV 
