@@ -7,12 +7,13 @@ Tabela de conteúdos
       * [Pre Requisitos](#pre-requisitos)
       * [Clonando Repositorio](#clonando-repositorio)
       * [Composer](#composer)
-      * [Criando .ENV](#criando-.env)
+      * [Criando .ENV](#criando-env)
       * [Gerar Key](#gerar-key)
-      * [Servicos e Banco](#servico-e-banco)
-   * [Incluir Usuário E Lojista](#incluir-usuario-e-lojista)
-   * [Realizando Transferência](#realizando-transferencia)
-   * [Retorno](#retorno)
+      * [Servicos e Banco](#servicos-e-banco)
+   * [Incluir Usuário E Lojista](#incluir-usuário-e-lojista)
+   * [Realizando Transferência](#realizando-transferência)
+   * [Retornos](#retornos)
+   * [Melhorias Futuras](#melhoria-futuras)
 <!--te-->
 
 # Sobre SimpPay
@@ -143,4 +144,4 @@ OBS: Ficará pendente, porém estará executando uma fila para tentar autorizar.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
