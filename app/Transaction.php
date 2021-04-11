@@ -28,10 +28,11 @@ class Transaction extends Model
     public function cancelTransaction(){
 
         $this->status = '3';
-        $this->save();
-
         $this->payer->wallet->value += $this->value;
+
         $this->payer->wallet->save();
+
+        dd($this);
 
     }
 
