@@ -15,6 +15,7 @@ class TransactionAuthorization implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 5;
     protected $transaction;
     /**
      * Create a new job instance.
@@ -38,8 +39,12 @@ class TransactionAuthorization implements ShouldQueue
         $authorizationExtern = Http::get('https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6');
 
         if($authorizationExtern->failed()){
+
             TransactionAuthorization::dispatch($this->transaction);
+
+
         } elseif ($authorizationExtern->json()['message'] == "Autorizado"){
+
             //Altera o Status e manda dinheiro para o recebedor...
             $this->transaction->finishedTransaction();
 
@@ -47,22 +52,8 @@ class TransactionAuthorization implements ShouldQueue
 
             if($sendMenssage->failed()){
                 TransactionMessage::dispatch($this->transaction);
-            } elseif ($sendMenssage->json()['message'] == "Enviado"){
-
-                return response()->json([
-                    'status' => 'Success',
-                    'data' => NULL,
-                    'message' => 'Transacao executada'
-                ], 200);
             }
 
-        } else {
-
-            return response()->json([
-                'status' => 'Success',
-                'data' => NULL,
-                'message' => 'Transacao executada'
-            ], 200);
         }
 
     }
