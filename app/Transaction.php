@@ -57,7 +57,7 @@ class Transaction extends Model
     /**
      * Send Value for Payer
      */
-    public function sendValuePayer(){
+    public function removeValuePayer(){
 
         $this->payer->wallet->value -= $this->value;
 

@@ -22,7 +22,7 @@ class TransactionController extends Controller
             'status' => '1',
         ]);
 
-        $newTransaction->sendValuePayer();
+        $newTransaction->removeValuePayer();
 
         $transactionValidate = new TransactionService($newTransaction);
 
