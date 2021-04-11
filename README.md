@@ -1,60 +1,145 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Tabela de conteúdos
+=================
+<!--ts-->
+   * [Sobre](#Sobre SimpPay)
+   * [Tabela de Conteudo](#tabela-de-conteudo)
+   * [Instalação](#instalacao)
+   * [Como usar](#como-usar)
+      * [Pre Requisitos](#pre-requisitos)
+      * [Instalando](#clone-repositorio)
+      * [Remote files](#remote-files)
+      * [Multiple files](#multiple-files)
+      * [Combo](#combo)
+   * [Tests](#testes)
+   * [Tecnologias](#tecnologias)
+<!--te-->
 
-## About Laravel
+# Sobre SimpPay
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+SimpPay é uma aplicação simplificada de envio e recebimento de dinheiro:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Instalacao
 
-## Learning Laravel
+## Pre requisitos:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- [Php 8.0](https://www.php.net/releases/8.0/en.php).
+- [Laravel 7.0](https://laravel.com/docs/7.x).
+- [Docker](https://www.docker.com)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+## Clonando Repositório
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+git clone https://github.com/pitombeira00/SIMPPAY.git
+```
 
-### Premium Partners
+## Baixando Pacotes Composer
+```
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+## Crie o arquivo .ENV 
 
-## Contributing
+Copie o arquivo .env.example e deixe somente .env, nele substitua as informações do banco:
+```
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=simppay
+DB_USERNAME=root
+DB_PASSWORD=testedopic
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Gere a Key 
+```
+php artisan key:generate
+```
 
-## Code of Conduct
+## Subir os Servicos e gerar tabelas no banco
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Assim que você informou o banco, host e o password no .env, agora é a hora de subir o serviço.
+```
+docker-compose up -d
 
-## Security Vulnerabilities
+##Gere as tabelas no banco de dados com o migrate executada diretamente no app.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+docker-compose exec app php artisan migrate
+```
+
+## Incluindo Usuário E Lojista
+
+POST /api/auth/register.
+```
+
+#HEADERS
+Accept: application/json
+
+#BODY INCLUINDO USUARIO
+{
+  "name": "Danilo Pitombeira",
+  "email": "danilo@user.com",
+  "password": "teste123",
+  "password_confirmation": "teste123",
+  "document": "12345678900"
+}
+
+
+#BODY INCLUINDO LOJISTA
+#CNPJ FOI PEGO DO SITE https://www.4devs.com.br/gerador_de_cnpj
+{
+  "name": "Danilo Pitombeira Lojista",
+  "email": "danilo@lojista.com",
+  "password": "teste123",
+  "password_confirmation": "teste123",
+  "document": "13670495000108"
+}
+```
+
+Guardar o TOKEN para realizar as Transferencias
+
+## Realizando Transferência
+```
+#HEADERS
+Authorization: Bearer [TOKEN]
+#BODY
+{
+    "payer": "1",
+    "payee": "2",
+    "value": 10.00
+}
+```
+
+## Retornos
+
+Transferência Executada com sucesso
+```
+{
+    "status": "Success",
+    "data": {
+        "status": "2"
+    },
+    "message": "Transacao finalizada com sucesso"
+}
+```
+
+Caso o Autorizador Externo não esteja Online, a transferencia ficará pendente e entrará na fila para tentar novamente.
+```
+{
+    "status": "Success",
+    "data": {
+        "status": "1"
+    },
+    "message": "Transacao pendente, aguardando autorizador."
+}
+```
+OBS: Ficará pendente, porém estará executando uma fila para tentar autorizar.
+
+
+## Melhorias Futuras
+
+- Delimitar quantidade de tentavias antes de cancelar a transferência;
 
 ## License
 
