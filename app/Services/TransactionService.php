@@ -19,6 +19,10 @@ class TransactionService {
         $this->transaction = $transaction;
     }
 
+    /**
+     * Create in Queue case Validate is off
+     * @return array
+     */
     public function sendValidate(){
 
         $authorizationExtern = Http::get(self::url_validation);
@@ -72,6 +76,10 @@ class TransactionService {
 
     }
 
+    /**
+     * Try send Validate in Job for Queue
+     * @return array
+     */
     public function reSendValidate(){
 
         $authorizationExtern = Http::get(self::url_validation);

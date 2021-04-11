@@ -15,6 +15,16 @@ class Transaction extends Model
         'value', 'status','user_payer','user_payee','send_message'
     ];
 
+    /**
+     * Status Transaction
+     * 1. -> pending;
+     * 2. -> end;
+     * 3. -> not authorized;
+     */
+
+    /**
+     * Cancel Transaction
+     */
     public function cancelTransaction(){
 
         $this->status = '3';
@@ -25,6 +35,9 @@ class Transaction extends Model
 
     }
 
+    /**
+     * End status Transaction
+     */
     public function finishedTransaction(){
 
         $this->status = '2';
@@ -32,12 +45,18 @@ class Transaction extends Model
 
     }
 
+    /**
+     * How Payer Id
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function payer(){
 
         return $this->hasOne(User::class,'id','user_payer');
     }
 
-
+    /**
+     * Send Value for Payer
+     */
     public function sendValuePayer(){
 
         $this->payer->wallet->value -= $this->value;
