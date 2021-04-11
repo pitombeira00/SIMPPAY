@@ -38,6 +38,7 @@ services:
   #MySQL Service
   db:
     image: mysql:5.7.22
+    command: "--innodb_use_native_aio=0"
     container_name: db
     ports:
       - "3306:3306"
@@ -46,6 +47,7 @@ services:
       MYSQL_ROOT_PASSWORD: testedopic
     volumes:
       - .docker/banco:/var/lib/mysql
+      - .docker/mysql/my.cnf:/etc/mysql/mycnf
     networks:
       - app-network
 
