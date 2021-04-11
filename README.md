@@ -2,17 +2,17 @@
 Tabela de conteúdos
 =================
 <!--ts-->
-   * [Sobre](#Sobre SimpPay)
-   * [Tabela de Conteudo](#tabela-de-conteudo)
+   * [Sobre](#sobre-simpPay)
    * [Instalação](#instalacao)
-   * [Como usar](#como-usar)
       * [Pre Requisitos](#pre-requisitos)
-      * [Instalando](#clone-repositorio)
-      * [Remote files](#remote-files)
-      * [Multiple files](#multiple-files)
-      * [Combo](#combo)
-   * [Tests](#testes)
-   * [Tecnologias](#tecnologias)
+      * [Clonando Repositorio](#clonando-repositorio)
+      * [Composer](#composer)
+      * [Criando .ENV](#criando-.env)
+      * [Gerar Key](#gerar-key)
+      * [Servicos e Banco](#servico-e-banco)
+   * [Incluir Usuário E Lojista](#incluir-usuario-e-lojista)
+   * [Realizando Transferência](#realizando-transferencia)
+   * [Retorno](#retorno)
 <!--te-->
 
 # Sobre SimpPay
@@ -35,12 +35,12 @@ SimpPay é uma aplicação simplificada de envio e recebimento de dinheiro:
 git clone https://github.com/pitombeira00/SIMPPAY.git
 ```
 
-## Baixando Pacotes Composer
+## Composer
 ```
 composer install
 ```
 
-## Crie o arquivo .ENV 
+## Criando .ENV 
 
 Copie o arquivo .env.example e deixe somente .env, nele substitua as informações do banco:
 ```
@@ -52,12 +52,12 @@ DB_USERNAME=root
 DB_PASSWORD=testedopic
 ```
 
-## Gere a Key 
+## Gerar Key 
 ```
 php artisan key:generate
 ```
 
-## Subir os Servicos e gerar tabelas no banco
+## Servicos e Banco
 
 Assim que você informou o banco, host e o password no .env, agora é a hora de subir o serviço.
 ```
@@ -68,7 +68,7 @@ docker-compose up -d
 docker-compose exec app php artisan migrate
 ```
 
-## Incluindo Usuário E Lojista
+## Incluir Usuário E Lojista
 
 POST /api/auth/register.
 ```
