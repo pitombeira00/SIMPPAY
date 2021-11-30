@@ -6,7 +6,8 @@ use App\Jobs\TransactionMessage;
 use Illuminate\Http\Request;
 use App\Transaction;
 
-class TransactionAppService{
+class TransactionAppService
+{
 
     /**
      * Classe para realizar Transação entre usuários.
@@ -14,33 +15,26 @@ class TransactionAppService{
      * @param Request $request
      * @return string
      */
-    public function __invoke(Request $request){
+    public function __invoke(Request $request)
+    {
 
         $authorization = new ApiAuthorizationTransactionService();
 
         $authorization->tryAuthorize();
 
-        if($authorization->erroAuthorization()){
-
+        if ($authorization->erroAuthorization()) {
             return $authorization->getErroMessage();
         }
 
-        if($authorization->isNotAuthorized()) {
-
-            (new Transaction)->createTransactionNotAuthorized($request);
-
-        }else{
-
-            $transactionModel = (new Transaction)->createTransactionAuthorized($request);
+        if ($authorization->isNotAuthorized()) {
+            (new Transaction())->createTransactionNotAuthorized($request);
+        } else {
+            $transactionModel = (new Transaction())->createTransactionAuthorized($request);
 
 //            return $transactionModel;
             TransactionMessage::dispatch($transactionModel);
-
         }
 
         return $authorization->getMessage();
-
     }
-
-
 }

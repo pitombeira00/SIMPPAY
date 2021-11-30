@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Http;
 
 class TransactionMessage implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $transaction;
     /**
@@ -33,9 +36,9 @@ class TransactionMessage implements ShouldQueue
     public function handle()
     {
 
-        $sendMenssage = Http::retry(5,300)->get(config('services.transaction.url_message'));
+        $sendMenssage = Http::retry(5, 300)->get(config('services.transaction.url_message'));
 
-        if($sendMenssage->failed()){
+        if ($sendMenssage->failed()) {
             TransactionMessage::dispatch($this->transaction);
         }
     }

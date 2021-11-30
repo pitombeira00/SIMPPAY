@@ -27,7 +27,6 @@ class PayeeUser implements Rule
     public function passes($attribute, $value)
     {
         return !empty(User::find($value));
-
     }
 
     /**

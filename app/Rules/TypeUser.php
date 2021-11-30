@@ -29,12 +29,14 @@ class TypeUser implements Rule
         $cpf = preg_replace('/[^0-9]/', '', auth()->user()->document);
 
         // Verifica se o numero de digitos informados
-        if (strlen($cpf) != 11)
+        if (strlen($cpf) != 11) {
             return false;
+        }
 
         // Verifica se todos os digitos são iguais
-        if (preg_match('/(\d)\1{10}/', $cpf))
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
+        }
 
         return true;
     }
