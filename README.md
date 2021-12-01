@@ -118,30 +118,30 @@ Authorization: Bearer [TOKEN]
 Transferência Executada com sucesso
 ```
 {
-    "status": "Success",
-    "data": {
-        "status": "2"
-    },
     "message": "Transacao finalizada com sucesso"
 }
 ```
 
-Caso o Autorizador Externo não esteja Online, a transferencia ficará pendente e entrará na fila para tentar novamente.
+Caso o Autorizador Externo não esteja Online, a transferência não irá ser criada e retornará.
 ```
 {
-    "status": "Success",
-    "data": {
-        "status": "1"
-    },
-    "message": "Transacao pendente, aguardando autorizador."
+    "message": "No momento estamos com indisponibilidade, tente mais tarde."
 }
 ```
-OBS: Ficará pendente, porém estará executando uma fila para tentar autorizar.
+
+Caso o Autorizador Externo retorne algo que não seja autorizado, irá criar uma transferência não autorizada e retornará a message do Autorizador Externo.
+```
+{
+    "message": " "
+}
+```
+
 
 
 ## Melhorias Futuras
 
-- Delimitar quantidade de tentavias antes de cancelar a transferência;
+- Melhorar o formato do retorno do autorizador externo;
+- Crias testes automatizados;
 
 ## License
 
