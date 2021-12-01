@@ -18,6 +18,7 @@ class ApiAuthorizationTransactionService
         try {
             $retorno = $this->authorizationIsActive();
             $this->error = false;
+            //TODO Colocar o message em caixa baixa para ser mais assertivo na comparação.
             $this->authorize = $retorno['message'] === config('transaction.return.ApiAuthorizationMessage') ? true : false;
             $this->message = $retorno['message'];
         } catch (\Exception $e) {
