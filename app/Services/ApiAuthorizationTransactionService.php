@@ -20,6 +20,7 @@ class ApiAuthorizationTransactionService
             $this->error = false;
             //TODO Colocar o message em caixa baixa para ser mais assertivo na comparação.
             $this->authorize = $retorno['message'] === config('transaction.return.ApiAuthorizationMessage') ? true : false;
+            //TODO Caso não seja authorizado, em vez de enviar a mensgem da API, enviar uma customizada.
             $this->message = $retorno['message'];
         } catch (\Exception $e) {
             Log::error('Try AuthorizationApi', [$e->getCode(), $e->getMessage()]);

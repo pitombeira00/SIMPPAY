@@ -31,7 +31,6 @@ class TransactionAppService
         } else {
             $transactionModel = (new Transaction())->createTransactionAuthorized($request);
 
-//            return $transactionModel;
             TransactionMessage::dispatch($transactionModel);
         }
 
