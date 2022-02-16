@@ -81,6 +81,7 @@ class Transaction extends Model
      */
     private function finishedTransaction(){
 
+        //TODO alterar para status OK
         $this->status = '2';
         $this->save();
 
